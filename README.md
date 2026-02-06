@@ -34,6 +34,14 @@ Once run, the tool generates a market snapshot like this:
 
 1. **Clone the repo:**
    ```bash
-   git clone [https://github.com/yourusername/market-detective.git](https://github.com/yourusername/market-detective.git)
+   git clone [https://github.com/TheProject0824/market-detective.git](https://github.com/TheProject0824/market-detective.git)
    cd market-detective
+   ```bash
+   pip install -r requirements.txt
    ```
+Run the detective:
+```bash
+python plotter.py
+```
+📝 License
+MIT License - feel free to use this for your own market research!
