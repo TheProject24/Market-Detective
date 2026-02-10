@@ -1,0 +1,151 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  extensions = [postgis]
+}
+
+// ==========================================
+// Scraped Properties from PropertyPro.com
+// ==========================================
+model PropertyPro {
+  id                  String         @id @default(cuid())
+
+  // Basic Info
+  title               String
+  description         String?
+  address             String
+  addressNumber       String?
+  city                String
+  state               String?
+  country             String         @default("Nigeria")
+  latitude            Float?
+  longitude           Float?
+  location            Unsupported("geometry(Point, 4326)")?
+
+
+  // Media
+  images              String[]       @default([])
+  videos              String[]       @default([])
+  threeDModel         String?
+
+  // Property Details
+  priceMonthly        Int            // In cents
+  beds                Int
+  baths               Int
+  sqft                Int?
+  yearBuilt           Int?
+
+  // Features & Amenities
+  amenities           String[]       @default([])
+  petFriendly         Boolean        @default(false)
+  furnished           Boolean        @default(false)
+  airConditioned      Boolean        @default(false)
+  
+  // Lease Terms
+  minLeaseTerm        Int            @default(12) // months
+  availabilityDate    DateTime?
+  leaseLengthMonths   Int?
+  utilitiesIncluded   String[]       @default([])
+
+  // Tenant Requirements
+  smokingAllowed      Boolean        @default(false)
+  visitorPolicy       String?        // STRICT, MODERATE, OPEN
+
+  // Engagement Metrics
+  views               Int            @default(0)
+  favoriteCount       Int            @default(0)
+  matchCount          Int            @default(0)
+
+  // Status         
+  publishedAt         DateTime       @default(now())
+
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+
+  // Relations
+  swipes              Swipe[]
+  matches             Match[]
+  favorites           Favorite[]
+
+  @@index([city])
+  @@index([priceMonthly])
+  @@index([beds])
+  @@index([latitude, longitude])
+  @@index([publishedAt])
+}
+
+
+// ==========================================
+// Scraped Properties from Jiji.ng
+// ==========================================
+model Jiji {
+  id                  String         @id @default(cuid())
+
+  // Basic Info
+  title               String
+  description         String?
+  address             String
+  addressNumber       String?
+  city                String
+  state               String?
+  country             String         @default("Nigeria")
+  latitude            Float?
+  longitude           Float?
+  location            Unsupported("geometry(Point, 4326)")?
+
+
+  // Media
+  images              String[]       @default([])
+  videos              String[]       @default([])
+  threeDModel         String?
+
+  // Property Details
+  priceMonthly        Int            // In cents
+  beds                Int
+  baths               Int
+  sqft                Int?
+  yearBuilt           Int?
+
+  // Features & Amenities
+  amenities           String[]       @default([])
+  petFriendly         Boolean        @default(false)
+  furnished           Boolean        @default(false)
+  airConditioned      Boolean        @default(false)
+  
+  // Lease Terms
+  minLeaseTerm        Int            @default(12) // months
+  availabilityDate    DateTime?
+  leaseLengthMonths   Int?
+  utilitiesIncluded   String[]       @default([])
+
+  // Tenant Requirements
+  smokingAllowed      Boolean        @default(false)
+  visitorPolicy       String?        // STRICT, MODERATE, OPEN
+
+  // Engagement Metrics
+  views               Int            @default(0)
+  favoriteCount       Int            @default(0)
+  matchCount          Int            @default(0)
+
+  // Status         
+  publishedAt         DateTime       @default(now())
+
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+
+  // Relations
+  swipes              Swipe[]
+  matches             Match[]
+  favorites           Favorite[]
+
+  @@index([city])
+  @@index([priceMonthly])
+  @@index([beds])
+  @@index([latitude, longitude])
+  @@index([publishedAt])
+}
