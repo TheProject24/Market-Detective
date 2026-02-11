@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client-py"
+  recursive_type_depth = 5
   previewFeatures = ["postgresqlExtensions"]
 }
 
@@ -17,6 +18,7 @@ model PropertyPro {
 
   // Basic Info
   title               String
+  url                 String         @unique
   description         String?
   address             String
   addressNumber       String?
@@ -34,7 +36,7 @@ model PropertyPro {
   threeDModel         String?
 
   // Property Details
-  priceMonthly        Int            // In cents
+  price               BigInt
   beds                Int
   baths               Int
   sqft                Int?
@@ -45,7 +47,7 @@ model PropertyPro {
   petFriendly         Boolean        @default(false)
   furnished           Boolean        @default(false)
   airConditioned      Boolean        @default(false)
-  
+
   // Lease Terms
   minLeaseTerm        Int            @default(12) // months
   availabilityDate    DateTime?
@@ -61,19 +63,14 @@ model PropertyPro {
   favoriteCount       Int            @default(0)
   matchCount          Int            @default(0)
 
-  // Status         
+  // Status
   publishedAt         DateTime       @default(now())
 
   createdAt           DateTime       @default(now())
   updatedAt           DateTime       @updatedAt
 
-  // Relations
-  swipes              Swipe[]
-  matches             Match[]
-  favorites           Favorite[]
-
   @@index([city])
-  @@index([priceMonthly])
+  @@index([price])
   @@index([beds])
   @@index([latitude, longitude])
   @@index([publishedAt])
@@ -105,7 +102,7 @@ model Jiji {
   threeDModel         String?
 
   // Property Details
-  priceMonthly        Int            // In cents
+  price               BigInt
   beds                Int
   baths               Int
   sqft                Int?
@@ -116,7 +113,7 @@ model Jiji {
   petFriendly         Boolean        @default(false)
   furnished           Boolean        @default(false)
   airConditioned      Boolean        @default(false)
-  
+
   // Lease Terms
   minLeaseTerm        Int            @default(12) // months
   availabilityDate    DateTime?
@@ -132,19 +129,14 @@ model Jiji {
   favoriteCount       Int            @default(0)
   matchCount          Int            @default(0)
 
-  // Status         
+  // Status
   publishedAt         DateTime       @default(now())
 
   createdAt           DateTime       @default(now())
   updatedAt           DateTime       @updatedAt
 
-  // Relations
-  swipes              Swipe[]
-  matches             Match[]
-  favorites           Favorite[]
-
   @@index([city])
-  @@index([priceMonthly])
+  @@index([price])
   @@index([beds])
   @@index([latitude, longitude])
   @@index([publishedAt])

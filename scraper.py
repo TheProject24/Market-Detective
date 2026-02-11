@@ -4,6 +4,11 @@ from cleaners import clean_price_string
 import re
 import time
 import json
+import logging
+
+# Setup logging for this module
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("Scraper")
 
 def get_stat(soup, label):
     """
@@ -165,16 +170,16 @@ def scrape_properties(pages=1, start_page=1):
     }
 
     for page_num in range(start_page, start_page + pages):
-        print(f"Scanning Page {page_num}...")
+        logger.info(f"Scanning page {page_num}...")
         search_url = f"{base_url}/property-for-sale/house?page={page_num}"
-        
+
         try:
             response = requests.get(search_url, headers=headers)
             soup = BeautifulSoup(response.text, 'html.parser')
-            
+
             # The search page container
             containers = soup.find_all(class_='pl-title-grid')
-            print(f"  Found {len(containers)} listings on search page.")
+            logger.info(f"Found {len(containers)} listings on search page")
 
             for house in containers: 
                 link_tag = house.find('a')
@@ -240,17 +245,17 @@ def scrape_properties(pages=1, start_page=1):
                             "Features": json.dumps(features),
                             "URL": property_url
                         })
-                        print(f"    [OK] Extracted: {name.get_text().strip()[:40]}...")
+                        logger.info(f"Extracted: {name.get_text().strip()[:40]}...")
                     else:
-                        print(f"    [SKIP] Missing core data (Name/Price) for {property_url}")
+                        logger.warning(f"Missing core data (Name/Price) for {property_url}")
 
-                    time.sleep(0.3) 
+                    time.sleep(0.3)
                 except Exception as e:
-                    print(f"    [ERROR] On property page: {e}")
-            
-            time.sleep(1) 
+                    logger.error(f"Error on property page: {e}")
+
+            time.sleep(1)
         except Exception as e:
-            print(f"Error scanning page {page_num}: {e}")
+            logger.error(f"Error scanning page {page_num}: {e}")
     
     return all_listings
 
