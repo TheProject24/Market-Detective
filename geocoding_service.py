@@ -106,7 +106,8 @@ class GeocodingService:
             "key": self.locationiq_key,
             "q": query,
             "format": "json",
-            "limit": 1
+            "limit": 1,
+            "countrycodes": "ng"
         }
 
         response = requests.get(url, params=params, timeout=10)
@@ -129,7 +130,8 @@ class GeocodingService:
             "key": self.opencage_key,
             "q": query,
             "limit": 1,
-            "no_annotations": 1
+            "no_annotations": 1,
+            "countrycode": "ng"
         }
 
         response = requests.get(url, params=params, timeout=10)
@@ -152,7 +154,8 @@ class GeocodingService:
         params = {
             "apiKey": self.geoapify_key,
             "text": query,
-            "limit": 1
+            "limit": 1,
+            "filter": "countrycode:ng"
         }
 
         response = requests.get(url, params=params, timeout=10)
@@ -176,7 +179,8 @@ class GeocodingService:
         params = {
             "access_key": self.positionstack_key,
             "query": query,
-            "limit": 1
+            "limit": 1,
+            "country": "ng"
         }
 
         response = requests.get(url, params=params, timeout=10)
@@ -198,7 +202,7 @@ class GeocodingService:
         try:
             # Nominatim requires 1 second between requests
             time.sleep(1)
-            location = self.nominatim.geocode(query, timeout=10)
+            location = self.nominatim.geocode(query, timeout=10, country_codes="ng")
             if location:
                 return location.latitude, location.longitude
         except (GeocoderTimedOut, GeocoderServiceError) as e:
